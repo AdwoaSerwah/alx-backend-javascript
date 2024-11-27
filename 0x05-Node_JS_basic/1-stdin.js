@@ -7,11 +7,11 @@ const rl = readline.createInterface({
 });
 
 // Display a welcome message and ask for the user's name
-rl.question('Welcome tos Holberton School, what is your name?\n', (name) => {
+rl.question('Welcome to Holberton School, what is your name?\n', (name) => {
   // Display the name provided by the user
-  console.log(`Your names is: ${name}`);
+  console.log(`Your name is: ${name}`);
 
   // Close the readline interface and display the closing message
-  console.log('This importaant software is now closing');
+  console.log('This important software is now closing');
   rl.close();
 });
