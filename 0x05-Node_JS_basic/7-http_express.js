@@ -1,4 +1,7 @@
-const http = require('http');
+const express = require('express');
+
+const app = express();
+const port = 1245;
 const fs = require('fs').promises;
 
 async function countStudents(filePath) {
@@ -52,30 +55,22 @@ async function countStudents(filePath) {
   }
 }
 
-const app = http.createServer((req, res) => {
-  if (req.url === '/') {
-    res.setHeader('Content-Type', 'text/plain');
-    res.statusCode = 200;
-    res.end('Hello Holberton School!');
-  } else if (req.url === '/students') {
-    res.setHeader('Content-Type', 'text/plain');
-    res.statusCode = 200;
-    const filePath = process.argv[2];
+const databaseFile = process.argv[2];
 
-    countStudents(filePath)
-      .then((data) => {
-        res.write('This is the list of our students\n');
-        res.end(data); // Complete response after successfully processing students
-      })
-      .catch((error) => {
-        res.end(`Error: ${error.message}`);
-      });
-  } else {
-    res.statusCode = 404;
-    res.end('Not Found');
+app.get('/', (req, res) => {
+  res.send('Hello Holberton School!');
+});
+
+app.get('/students', async (req, res) => {
+  try {
+    // Call countStudents with the database filename and get the result
+    const result = await countStudents(databaseFile);
+    res.send(`This is the list of our students\n${result}`);
+  } catch (err) {
+    res.status(500).send(`Error: ${err.message}`);
   }
 });
 
-app.listen(1245);
+app.listen(port);
 
 module.exports = app;
