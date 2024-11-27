@@ -12,6 +12,11 @@ rl.question('Welcome to Holberton School, what is your name?\n', (name) => {
   console.log(`Your name is: ${name}`);
 
   // Close the readline interface and display the closing message
-  console.log('This important software is now closing');
+  // console.log('This important software is now closing');
+
+  // If the input is from a pipe (non-interactive), print the closing message
+  if (!process.stdin.isTTY) {
+    console.log('This important software is now closing');
+  }
   rl.close();
 });
