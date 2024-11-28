@@ -63,11 +63,12 @@ app.get('/', (req, res) => {
 
 app.get('/students', async (req, res) => {
   try {
+    // res.send(`This is the list of our students\n${result}`);
     // Call countStudents with the database filename and get the result
     const result = await countStudents(databaseFile);
     res.send(`This is the list of our students\n${result}`);
   } catch (err) {
-    res.status(500).send(`Error: ${err.message}`);
+    res.status(500).send(`This is the list of our students\n${err.message}`);
   }
 });
 
