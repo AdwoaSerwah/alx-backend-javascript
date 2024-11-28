@@ -1,11 +1,11 @@
-import { readDatabase } from '../utils.js';
+import readDatabase from '../utils';
 
 class StudentsController {
   // Method to get all students
   static async getAllStudents(req, res) {
     try {
       // Use the database file from the request object
-      const databaseFile = req.databaseFile;
+      const { databaseFile } = req;
 
       // Read the database
       const database = await readDatabase(databaseFile);
@@ -33,23 +33,22 @@ class StudentsController {
       const major = req.params.major.toUpperCase();
 
       if (major !== 'CS' && major !== 'SWE') {
-        return res.status(500).send('Major parameter must be CS or SWE');
+        res.status(500).send('Major parameter must be CS or SWE');
       }
 
       // Use the database file from the request object
-      const databaseFile = req.databaseFile;
+      const { databaseFile } = req;
 
       // Read the database
       const database = await readDatabase(databaseFile);
       const fieldStudents = database[major];
 
       if (!fieldStudents) {
-        return res.status(500).send('Cannot load the database');
+        res.status(500).send('Cannot load the database');
       }
 
       const response = `List: ${fieldStudents.join(', ')}`;
       res.status(200).send(response);
-
     } catch (error) {
       res.status(500).send('Cannot load the database');
     }
