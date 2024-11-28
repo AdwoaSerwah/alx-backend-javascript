@@ -61,14 +61,15 @@ const app = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/plain');
     res.statusCode = 200;
     const filePath = process.argv[2];
+    res.write('This is the list of our students\n');
 
     countStudents(filePath)
       .then((data) => {
-        res.write('This is the list of our students\n');
+        // res.write('This is the list of our students\n');
         res.end(data); // Complete response after successfully processing students
       })
       .catch((error) => {
-        res.end(`Error: ${error.message}`);
+        res.end(error.message);
       });
   } else {
     res.statusCode = 404;
