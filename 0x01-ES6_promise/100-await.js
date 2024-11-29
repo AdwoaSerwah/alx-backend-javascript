@@ -1,5 +1,4 @@
-// 100-await.js
-import { uploadPhoto, createUser } from './utils';  // Import the functions
+import { uploadPhoto, createUser } from './utils';
 
 export default async function asyncUploadUser() {
   const result = {
@@ -14,22 +13,22 @@ export default async function asyncUploadUser() {
       createUser()
     ]);
 
-    // Check if the photo upload promise is fulfilled
+    // Handle photo response
     if (photoResponse.status === 'fulfilled') {
       result.photo = photoResponse.value;
     } else {
-      result.photo = null; // If it failed, set to null
+      result.photo = null;
     }
 
-    // Check if the createUser promise is fulfilled
+    // Handle user response
     if (userResponse.status === 'fulfilled') {
       result.user = userResponse.value;
     } else {
-      result.user = null; // If it failed, set to null
+      result.user = null;
     }
 
   } catch (error) {
-    // If there is an error, we just return the initial result
+    // Catch any other unexpected errors and return null for both
     return {
       photo: null,
       user: null
