@@ -1,24 +1,40 @@
 // 100-await.js
-import { uploadPhoto, createUser } from './utils'; // Import both functions from utils.js
+import { uploadPhoto, createUser } from './utils';  // Import the functions
 
 export default async function asyncUploadUser() {
+  const result = {
+    photo: null,
+    user: null
+  };
+
   try {
     // Wait for both promises to settle
     const [photoResponse, userResponse] = await Promise.allSettled([
       uploadPhoto(),
-      createUser(),
+      createUser()
     ]);
 
-    // Construct the result object
-    return {
-      photo: photoResponse.status === 'fulfilled' ? photoResponse.value : null,
-      user: userResponse.status === 'fulfilled' ? userResponse.value : null,
-    };
+    // Check if the photo upload promise is fulfilled
+    if (photoResponse.status === 'fulfilled') {
+      result.photo = photoResponse.value;
+    } else {
+      result.photo = null; // If it failed, set to null
+    }
+
+    // Check if the createUser promise is fulfilled
+    if (userResponse.status === 'fulfilled') {
+      result.user = userResponse.value;
+    } else {
+      result.user = null; // If it failed, set to null
+    }
+
   } catch (error) {
-    // Return empty object if there's an error
+    // If there is an error, we just return the initial result
     return {
       photo: null,
-      user: null,
+      user: null
     };
   }
+
+  return result;
 }
