@@ -1,5 +1,11 @@
-export default function cleanSet(set, startString) {
+// 8-clean_set.js
+export default function cleanSet(set, startString = '') {
   const result = [];
+
+  // Return an empty string if startString is not a string
+  if (typeof startString !== 'string') {
+    return '';
+  }
 
   // If startString is empty, return an empty string
   if (startString === '') {
@@ -7,7 +13,8 @@ export default function cleanSet(set, startString) {
   }
 
   set.forEach((value) => {
-    if (value.startsWith(startString)) {
+    // Skip undefined or non-string values
+    if (value && value.startsWith(startString)) {
       result.push(value.slice(startString.length)); // Remove startString and push the rest
     }
   });
